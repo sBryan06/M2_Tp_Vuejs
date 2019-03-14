@@ -3,46 +3,63 @@
     <head>
         <title>Liste de courses</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <!-- Library Element UI -->
+        <!-- import du CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
     </head>
     <body>
         <div id="app">
             <h1>Ma liste de courses</h1>
 
-            <div class="saisie row ml-2">
-                <div class="col-6">
-                        <input type="text" class="form-control" v-model="form.course" @keyup.enter="addCourse()"/>
-                </div>
-                <div class="col-2">
+            <div class="row">
+                <div class="saisie-course col-4">
+                    <!-- <div class="sub-title">Liste des suggestions à l'écriture</div> -->
+                    <el-autocomplete
+                        class="inline-input"
+                        v-model="form.course"
+                        :fetch-suggestions="querySearch"
+                        placeholder="Entrez quelque chose"
+                        :trigger-on-focus="false"
+                        @select="handleSelect"
+                    ></el-autocomplete>
                     <button class="btn btn-primary" @click="addCourse()"> Ajouter </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Budget: <el-input-number v-model="budget" controls-position="right" @change="handleChangeBudget" :min="1"></el-input-number>
                 </div>
             </div>
 
             <my-courses :courses="courses"></my-courses>
 
 
-            <div class="input-group col-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Budget</span>
-                </div>
-                <input type="text" aria-label="First name" class="form-control" v-model="budget">
-            </div>
             <span class="ml-4 total"> 
                 <span :class="[total > budget ? 'text-danger' : '']"> Total: {{total}}€ </span>
             </span>
         </div>
 
         <script src="https://unpkg.com/vue"></script>
+        <!-- import du JavaScript -->
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
         <script src="web/js/app.js"></script>
     </body>
 </html>
 
 <style>
     .row {
-        margin-bottom: 5px;
+        /* margin-bottom: 5px; */
     }
 
-    .saisie {
+    h1 {
+        text-align: center;
+    }
+
+    .saisie-course {
         margin-bottom: 20px;
+        display: flex;
     }
 
     .align-center {
@@ -51,6 +68,6 @@
     }
 
     .total {
-        font-size: 18pt;
+        font-size: 20pt;
     }
 </style>

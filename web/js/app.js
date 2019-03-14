@@ -41,14 +41,15 @@ var app = new Vue({
         form: {
             course: ''
         },
-        budget: 50
+        budget: 50,
+        suggestions: [{value: 'choco'}, {value: 'banane'}, {value: 'patate'}, {value: 'poulet'}, {value: 'riz'}]
     },
 
     mounted() {
         this.courses = JSON.parse(localStorage.getItem('courses')) || []
     },
     methods: {
-        addCourse () {
+        addCourse() {
             if (this.form.course !== '') {
                 const c = {
                     name: this.form.course,
@@ -57,8 +58,33 @@ var app = new Vue({
                 }
                 this.courses.push(c)
 
+                this.enrichSuggestions(this.form.course)
+
                 this.form.course = ''
             }
+        },
+
+        enrichSuggestions(name) {
+            var found = this.suggestions.find(sugestion => sugestion.value.toLowerCase() === name.toLowerCase())
+            console.log(found);
+            if (!found) {
+                this.suggestions.push({value: name})
+            }
+        },
+        handleSelect(item) {
+            this.addCourse()
+        },
+        querySearch(queryString, cb) {
+            var courses = this.suggestions;
+            var results = queryString ? courses.filter(this.createFilter(queryString)) : courses;
+            // call callback function to return suggestions
+            console.log(results);
+            cb(results);
+        },
+        createFilter(queryString) {
+            return (course) => {
+                return (course.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+            };
         }
     },
     computed: {
@@ -68,7 +94,7 @@ var app = new Vue({
     },
     watch: {
         courses: {
-            handler () {
+            handler() {
                 localStorage.setItem('courses', JSON.stringify(this.courses))
             },
             deep: true
