@@ -13,27 +13,30 @@
         <div id="app">
             <h1>Ma liste de courses</h1>
 
-            <div class="row">
-                <div class="saisie-course col-4">
-                    <!-- <div class="sub-title">Liste des suggestions à l'écriture</div> -->
-                    <el-autocomplete
-                        class="inline-input"
-                        v-model="form.course"
-                        :fetch-suggestions="querySearch"
-                        placeholder="Entrez quelque chose"
-                        :trigger-on-focus="false"
-                        @select="handleSelect"
-                    ></el-autocomplete>
-                    <button class="btn btn-primary" @click="addCourse()"> Ajouter </button>
+            <div class="saisie">
+                <div class="row">
+                    <div class="saisie-course col-4">
+                        <!-- <div class="sub-title">Liste des suggestions à l'écriture</div> -->
+                        <el-autocomplete
+                            class="inline-input"
+                            v-model="form.course"
+                            :fetch-suggestions="querySearch"
+                            placeholder="Entrez quelque chose"
+                            :trigger-on-focus="false"
+                            @select="handleSelect"
+                            @keyup.enter="addCourse"
+                        ></el-autocomplete>
+                        <button class="btn btn-primary" @click="addCourse()"> Ajouter </button>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    Budget: <el-input-number v-model="budget" controls-position="right" @change="handleChangeBudget" :min="1"></el-input-number>
+                <div class="row">
+                    <div class="col-4">
+                        Budget: <el-input-number v-model="budget" controls-position="right" @change="handleChangeBudget" :min="1"></el-input-number>
+                    </div>
                 </div>
             </div>
 
-            <my-courses :courses="courses"></my-courses>
+            <my-courses class="courses" :courses="courses"></my-courses>
 
 
             <span class="ml-4 total"> 
@@ -57,6 +60,10 @@
         text-align: center;
     }
 
+    .saisie {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
     .saisie-course {
         margin-bottom: 20px;
         display: flex;
@@ -69,5 +76,19 @@
 
     .total {
         font-size: 20pt;
+    }
+
+    .courses {
+        /* margin: 20px 20px; */
+        padding: 20px;
+        /* border: 1px solid black; */
+        width: 55%;
+    }
+
+    .card {
+        margin-bottom: 5px;
+    }
+    .card-body {
+        padding: 5px;
     }
 </style>

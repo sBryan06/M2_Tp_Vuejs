@@ -2,26 +2,30 @@ var MyCourses = {
     props: ['courses'],
     template: `
     <div>
-        <div class="row" v-for="(course, index) in courses" :key="index">
-            <div class="col-1 align-center">
-                <input type="checkbox" v-model="course.coched"> </input>
-            </div>
-            <div class="col-2">
-                <label>{{ course.name }}</label>
-            </div>
-            <div class="col-3 align-center">
-                <div v-if="course.coched" class="input-group">
-                    <input type="texr" v-model.number="course.price">
-                    <div class="input-group-append">
-                        <span class="input-group-text">€</span>
+        <div class="card" v-for="(course, index) in courses" :key="index">
+            <div class="card-body" >
+                <div class="row" >
+                    <div class="col-1 align-center">
+                        <input type="checkbox" v-model="course.coched"> </input>
+                    </div>
+                    <div class="col-3">
+                        <label>{{ course.name }}</label>
+                    </div>
+                    <div class="col-5 align-center">
+                        <div v-if="course.coched" class="input-group">
+                            <input type="text" v-model.number="course.price">
+                            <div class="input-group-append">
+                                <span class="input-group-text">€</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 align-center">
+                        <el-button type="danger" icon="el-icon-delete" circle @click="removeItem(index)"></el-button>
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="button" class="btn btn-danger" @click="removeItem(index)"> Delete </button>
-            </div>
-            
         </div>
+        
     </div>`,
     methods: {
         removeItem(index) {
