@@ -30,11 +30,10 @@
                     <button class="btn btn-primary" @click="addCourse()"> Ajouter </button>
                 </div>
             </div>
-            <my-autocomplete :courses="courses" :suggestions="suggestions" :search="form.course"></my-autocomplete>
+            <my-autocomplete :courses="courses" :suggestions="suggestions" :search="form"></my-autocomplete>
             <div class="row">
                 <div class="col-4">
-                    Budget: <el-input-number v-model="budget" controls-position="right" @change="handleChangeBudget"
-                        :min="1"></el-input-number>
+                    Budget: <input type="number" class="form-control" v-model="budget" ></el-input-number>
                 </div>
             </div>
         </div>
@@ -71,6 +70,7 @@
 
     .saisie-course {
         width: 400px;
+        display: flex;
     }
 
     .align-center {
@@ -100,7 +100,7 @@
     .list-autocomplete {
         list-style-type: none;
         border-radius: 5px;
-        margin-top: -20px;
+        /* margin-top: -10px; */
         margin-left: -40px;
     }
 

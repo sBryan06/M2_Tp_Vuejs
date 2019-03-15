@@ -36,7 +36,7 @@ var MyCourses = {
 
 var MyAutocomplete = {
     props: ["courses", "suggestions", "search"],
-    template: `<ul v-if="search" class="list-autocomplete">
+    template: `<ul v-if="search.course" class="list-autocomplete">
         <li v-for="(suggestion, index) in filteredSuggestions" :key="index" @click="addCourses(suggestion.value)" class="autocomplete-row">
             {{suggestion.value}}
         </li>
@@ -51,9 +51,7 @@ var MyAutocomplete = {
                 }
                 this.courses.push(c)
 
-                this.enrichSuggestions(this.form.course)
-
-                this.form.course = ''
+                this.search.course = ''
             }
         },
         enrichSuggestions(name) {
@@ -66,7 +64,7 @@ var MyAutocomplete = {
     },
     computed: {
         filteredSuggestions() {
-            return this.suggestions.filter(sugg => sugg.value.toLowerCase().includes(this.search.toLowerCase()))
+            return this.suggestions.filter(sugg => sugg.value.toLowerCase().includes(this.search.course.toLowerCase()))
         }
     }
 }
