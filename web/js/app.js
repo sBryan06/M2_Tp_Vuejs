@@ -34,11 +34,49 @@ var MyCourses = {
     }
 }
 
+var MyAutocomplete = {
+    props: ["courses", "suggestions", "search"],
+    template: `<ul v-if="search" class="list-autocomplete">
+        <li v-for="(suggestion, index) in filteredSuggestions" :key="index" @click="addCourses(suggestion.value)" class="autocomplete-row">
+            {{suggestion.value}}
+        </li>
+    </ul>`,
+    methods: {
+        addCourses(item) {
+            if (item !== '') {
+                const c = {
+                    name: item,
+                    coched: false,
+                    price: 0
+                }
+                this.courses.push(c)
+
+                this.enrichSuggestions(this.form.course)
+
+                this.form.course = ''
+            }
+        },
+        enrichSuggestions(name) {
+            var found = this.suggestions.find(sugestion => sugestion.value.toLowerCase() === name.toLowerCase())
+            console.log(found);
+            if (!found) {
+                this.suggestions.push({value: name})
+            }
+        },
+    },
+    computed: {
+        filteredSuggestions() {
+            return this.suggestions.filter(sugg => sugg.value.toLowerCase().includes(this.search.toLowerCase()))
+        }
+    }
+}
+
 var app = new Vue({
     el: '#app',
 
     components: {
-        MyCourses
+        MyCourses,
+        MyAutocomplete
     },
     data: {
         courses: [],

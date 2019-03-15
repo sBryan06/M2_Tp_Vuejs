@@ -1,54 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Liste de courses</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
-        <!-- Library Element UI -->
-        <!-- import du CSS -->
-        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 
-    </head>
-    <body>
-        <div id="app">
-            <h1>Ma liste de courses</h1>
+<head>
+    <title>Liste de courses</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
 
-            <div class="saisie">
-                <div class="row">
-                    <div class="saisie-course col-4">
-                        <!-- <div class="sub-title">Liste des suggestions à l'écriture</div> -->
-                        <el-autocomplete
-                            class="inline-input"
-                            v-model="form.course"
-                            :fetch-suggestions="querySearch"
-                            placeholder="Entrez quelque chose"
-                            :trigger-on-focus="false"
-                            @select="handleSelect"
+    <!-- Library Element UI -->
+    <!-- import du CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <h1>Ma liste de courses</h1>
+
+        <div class="saisie">
+            <div class="row">
+                <div class="saisie-course col-4">
+                    <!-- <div class="sub-title">Liste des suggestions à l'écriture</div> -->
+                    <input type="text" class="form-control saisie-course" 
+                            v-model="form.course" 
                             @keyup.enter="addCourse"
-                        ></el-autocomplete>
-                        <button class="btn btn-primary" @click="addCourse()"> Ajouter </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        Budget: <el-input-number v-model="budget" controls-position="right" @change="handleChangeBudget" :min="1"></el-input-number>
-                    </div>
+                            placeholder="Enter course"/>
+                    <!-- <el-autocomplete class="inline-input" v-model="form.course" :fetch-suggestions="querySearch"
+                        placeholder="Entrez quelque chose" :trigger-on-focus="false" @select="handleSelect"
+                        @keyup.enter="addCourse"></el-autocomplete> -->
+                    <button class="btn btn-primary" @click="addCourse()"> Ajouter </button>
                 </div>
             </div>
-
-            <my-courses class="courses" :courses="courses"></my-courses>
-
-
-            <span class="ml-4 total"> 
-                <span :class="[total > budget ? 'text-danger' : '']"> Total: {{total}}€ </span>
-            </span>
+            <my-autocomplete :courses="courses" :suggestions="suggestions" :search="form.course"></my-autocomplete>
+            <div class="row">
+                <div class="col-4">
+                    Budget: <el-input-number v-model="budget" controls-position="right" @change="handleChangeBudget"
+                        :min="1"></el-input-number>
+                </div>
+            </div>
         </div>
 
-        <script src="https://unpkg.com/vue"></script>
-        <!-- import du JavaScript -->
-        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-        <script src="web/js/app.js"></script>
-    </body>
+        <my-courses class="courses" :courses="courses"></my-courses>
+
+
+        <span class="ml-4 total">
+            <span :class="[total > budget ? 'text-danger' : '']"> Total: {{total}}€ </span>
+        </span>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <!-- import du JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="web/js/app.js"></script>
+</body>
+
 </html>
 
 <style>
@@ -64,9 +68,9 @@
         margin-top: 20px;
         margin-left: 20px;
     }
+
     .saisie-course {
-        margin-bottom: 20px;
-        display: flex;
+        width: 400px;
     }
 
     .align-center {
@@ -88,7 +92,26 @@
     .card {
         margin-bottom: 5px;
     }
+
     .card-body {
         padding: 5px;
+    }
+
+    .list-autocomplete {
+        list-style-type: none;
+        border-radius: 5px;
+        margin-top: -20px;
+        margin-left: -40px;
+    }
+
+    .autocomplete-row {
+        width: 400px;
+        /* background-color: #f6f6f6; */
+        border: 1px solid #f6f6f6;
+        padding: 8px;
+    }
+    .autocomplete-row:hover {
+        cursor: pointer;
+        background-color: #f9f9f9;
     }
 </style>
